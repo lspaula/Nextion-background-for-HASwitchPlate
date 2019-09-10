@@ -1,0 +1,1 @@
+# Nextion-background-for-HASwitchPlate
