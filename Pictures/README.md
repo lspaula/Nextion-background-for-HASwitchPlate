@@ -1,1 +1,1 @@
-Here are some pictures from the project
+Here are some real photos from the implemented project
