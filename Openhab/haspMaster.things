@@ -1,0 +1,29 @@
+// This Thing requires the bridge definition at the home.things file:
+//Bridge mqtt:broker:MyBroker  [ host="xxx.xxx.xxx.xxx", secure=false ]
+
+Thing mqtt:topic:haspthing "Hasp Thing" (mqtt:broker:MyBroker) @ "Main Broker" {
+        /* Page Storage Items */
+        Type number : HASP_Plate01_Page [ commandTopic="hasp/plate01/command/page" ]
+        Type number : HASP_Plate01_Page_Current [ stateTopic="hasp/plate01/command/page" ]
+        /* Plate Status Items */
+        Type switch : HASP_Plate01_Light_Power [ commandTopic="hasp/plate01/light/switch" ]
+        Type switch : HASP_Plate01_Light_Status [ stateTopic="hasp/plate01/light/state" ]
+        Type number : HASP_Plate01_Light_Brightness [ stateTopic="hasp/plate01/brightness/state" ]
+        Type number : HASP_Plate01_Light_Dimmer [ commandTopic="hasp/plate01/brightness/set" ]
+        Type switch : HASP_Plate01_Plate_Status [ stateTopic="hasp/plate01/status" ]
+        Type string : HASP_Plate01_Plate_Sensor [ stateTopic="hasp/plate01/sensor" ]
+        Type string : HASP_Plate01_Plate_Sensor_Status [ stateTopic="hasp/plate01/sensor", transformationPattern="JSONPATH:$.status" ]
+        Type string : HASP_Plate01_Plate_Sensor_ESPVersion [ stateTopic="hasp/plate01/sensor", transformationPattern="JSONPATH:$.espVersion" ]
+        Type string : HASP_Plate01_Plate_Sensor_ESPUpdate [ stateTopic="hasp/plate01/sensor", transformationPattern="JSONPATH:$.updateEspAvailable" ]
+        Type string : HASP_Plate01_Plate_Sensor_LCDVersion [ stateTopic="hasp/plate01/sensor", transformationPattern="JSONPATH:$.lcdVersion" ]
+        Type string : HASP_Plate01_Plate_Sensor_LCDUpdate [ stateTopic="hasp/plate01/sensor", transformationPattern="JSONPATH:$.updateLcdAvailable" ]
+        Type number : HASP_Plate01_Plate_Sensor_ESPUptime [ stateTopic="hasp/plate01/sensor", transformationPattern="JSONPATH:$.espUptime" ]
+        Type number : HASP_Plate01_Plate_Sensor_SignalStrength [ stateTopic="hasp/plate01/sensor", transformationPattern="JSONPATH:$.signalStrength" ]
+        Type string : HASP_Plate01_Plate_Sensor_HaspIP [ stateTopic="hasp/plate01/sensor", transformationPattern="JSONPATH:$.haspIP" ]
+        Type number : HASP_Plate01_Plate_Motion [ stateTopic="hasp/plate01/motion/state" ]
+        Type string : HASP_Plate01_Plate_Command [ commandTopic="hasp/plate01/command" ]
+        Type string : HASP_Plate01_Plate_Command_JSON [ commandTopic="hasp/plate01/command/json" ]
+        Type string : HASP_Plate01_Plate_State_JSON [ stateTopic="hasp/plate01/state/json" ]
+        Type string : HASP_Plate01_Plate_State_JSON_Event [ stateTopic="hasp/plate01/state/json", transformationPattern="JSONPATH:$.event" ]
+        Type string : HASP_Plate01_Plate_State_JSON_Value [ stateTopic="hasp/plate01/state/json", transformationPattern="JSONPATH:$.value" ]
+    }
