@@ -34,7 +34,7 @@ val plate01_page1button13font = 6
 val plate01_page2button4txt = 'Living Climate'
 val plate01_page2button5txt = ''
 val plate01_page2button6txt = KomecoTemp.state.format("%d°C")
-val plate01_page2button7txt = ''//Komeco.state.toString
+val plate01_page2button7txt = ''
 val plate01_page2button8txt = ''
 val plate01_page2button9txt = 'Bedroom Climate'
 val plate01_page2button10txt = ''
@@ -48,9 +48,6 @@ val plate01_page2button17txt = ''
 val plate01_page2button18txt = ''
 val plate01_page2button19txt = 'Cool'
 val plate01_page2button20txt = 'Heat'
-// val plate01_page2button21txt = ''
-// val plate01_page2button22txt = ''
-// val plate01_page2button23txt = ''
 val plate01_page2button4font = 6
 val plate01_page2button5font = 5
 val plate01_page2button6font = 5
@@ -68,9 +65,6 @@ val plate01_page2button17font = 5
 val plate01_page2button18font = 5
 val plate01_page2button19font = 6
 val plate01_page2button20font = 6
-// val plate01_page2button21font = 6
-// val plate01_page2button22font = 6
-// val plate01_page2button23font = 6
 
 /* Configuration for page 3 (Scenes) */
 val plate01_page3button4txt = 'Living Dim'
@@ -252,13 +246,13 @@ then
                             }
                         else if (eventbutton == '8')
                             {
-                            if(BedsideLamp.state == ON)                                    //Example - Toggle - change item state using HASP button (turn OFF if ON and ON if OFF)
+                            if(BedsideLight.state == ON)                                    //Example - Toggle - change item state using HASP button (turn OFF if ON and ON if OFF)
                                 {
-                                BedsideLamp.sendCommand(OFF)
+                                BedsideLight.sendCommand(OFF)
                                 }
                             else
                                 {
-                                BedsideLamp.sendCommand(ON)
+                                BedsideLight.sendCommand(ON)
                                 }
                             }
                         else if (eventbutton == '9')
@@ -288,9 +282,10 @@ then
                     case '2': // Page 2
                     {
                         // Getting the temperatures and storing it to variables
-                        val kTemp = KomecoTemp.state as Number
-                        val aTemp = AirmaxTemp.state as Number
-                        val cTemp = CadenceTemp.state as Number
+                        var Number kTemp = KomecoTemp.state as DecimalType
+                        var Number aTemp = AirmaxTemp.state as DecimalType
+                        var Number cTemp = CadenceTemp.state as DecimalType
+
                         /*
                             Act on buttons/dimmers from Page 2 here
                         */
@@ -310,13 +305,13 @@ then
                             }
                         else if (eventbutton == '7')
                             {
-                            if(Komeco.state == ON)                                    //Example - Toggle - change item state using HASP button (turn OFF if ON and ON if OFF)
+                            if(KomecoSw.state == ON)                                    //Example - Toggle - change item state using HASP button (turn OFF if ON and ON if OFF)
                                 {
-                                Komeco.sendCommand(OFF)
+                                KomecoSw.sendCommand(OFF)
                                 }
                             else
                                 {
-                                Komeco.sendCommand(ON)
+                                KomecoSw.sendCommand(ON)
                                 }
                             }
                         else if (eventbutton == '8')
@@ -341,13 +336,13 @@ then
                             }
                         else if (eventbutton == '12')
                             {
-                            if(Airmax.state == ON)                                    //Example - Toggle - change item state using HASP button (turn OFF if ON and ON if OFF)
+                            if(AirmaxSw.state == ON)                                    //Example - Toggle - change item state using HASP button (turn OFF if ON and ON if OFF)
                                 {
-                                Airmax.sendCommand(OFF)
+                                AirmaxSw.sendCommand(OFF)
                                 }
                             else
                                 {
-                                Airmax.sendCommand(ON)
+                                AirmaxSw.sendCommand(ON)
                                 }
                             }
                         else if (eventbutton == '13')
@@ -372,13 +367,13 @@ then
                             }
                         else if (eventbutton == '17')
                             {
-                            if(Cadence.state == ON)                                    //Example - Toggle - change item state using HASP button (turn OFF if ON and ON if OFF)
+                            if(CadenceSw.state == ON)                                    //Example - Toggle - change item state using HASP button (turn OFF if ON and ON if OFF)
                                 {
-                                Cadence.sendCommand(OFF)
+                                CadenceSw.sendCommand(OFF)
                                 }
                             else
                                 {
-                                Cadence.sendCommand(ON)
+                                CadenceSw.sendCommand(ON)
                                 }
                             }
                         else if (eventbutton == '18')
@@ -419,10 +414,10 @@ then
                                 sendCommand(KitchenLedLight, OFF)
                                 sendCommand(TopTVLight, OFF)
                                 sendCommand(TableLight, OFF)
-                                sendCommand(BedsideLamp, OFF)
+                                sendCommand(BedsideLight, OFF)
                                 sendCommand(SancaColor, OFF)
                                 sendCommand(SancaLed, OFF)
-                                sendCommand(BedroomColor, OFF)
+                                //sendCommand(BedroomColor, OFF)
                             }
                         else if (eventbutton == '7')
                             {
@@ -549,26 +544,6 @@ end
 
 // */
 
-// rule "Handle HASP Master Page 2 Status"
-// when
-//     Item localCurrentTemperature received update or
-//     Item Temperature_MasterBedroom received update or
-//     Item Date received update or
-//     Item HASP_Plate01_Page_Current received update 2
-// then
-//     if (HASP_Plate01_Page_Current.state == 2)   //Only update page if you're on page 2 (avoid sending too many MQTT messages)
-//     {
-//        //["p[2].b[4].txt=\"O: 27.6 °F\"", "p[2].b[5].txt=\"I: 71.8 °F\"", ...]
-
-//         var String jsonString = '["p[2].b[4].txt=\\"' + 'O: ' + localCurrentTemperature.state.format("%.1f °F") + '\\"", ' +
-//                          '"p[2].b[5].txt=\\"' + 'I: ' + Temperature_MasterBedroom.state.format("%.1f °F") + '\\"", ' +
-//                          '"p[2].b[6].txt=\\"' + (Date.state as DateTimeType).format("%1$tA") + '\\"", ' +
-//                          '"p[2].b[7].txt=\\"' + (Date.state as DateTimeType).format("%1$td.%1$tb.%1$tY") + '\\""]'
-
-//         HASP_Plate01_Plate_Command_JSON.sendCommand(jsonString)
-//     }
-// end
-
 //      ____  _                                   
 //     / __ \(_)___ ___  ____ ___  ___  __________
 //    / / / / / __ `__ \/ __ `__ \/ _ \/ ___/ ___/
@@ -594,11 +569,11 @@ end
 
 rule "Handle HASP Master Page 2 Komeco status display"
 when
-    Item Komeco received update or
+    Item KomecoSw received update or
     Item HASP_Plate01_Page_Current received update
 then
     var String jsonString
-    if(Komeco.state == ON)                                    //Example - Toggle - change item state using HASP button (turn OFF if ON and ON if OFF)
+    if(KomecoSw.state == ON)                                    //Example - Toggle - change item state using HASP button (turn OFF if ON and ON if OFF)
         {
         jsonString = '["p[2].b[21].picc=4"]'
         }
@@ -619,11 +594,11 @@ end
 
 rule "Handle HASP Master Page 2 Airmax status display"
 when
-    Item Airmax received update or
+    Item AirmaxSw received update or
     Item HASP_Plate01_Page_Current received update
 then
     var String jsonString
-    if(Airmax.state == ON)                                    //Example - Toggle - change item state using HASP button (turn OFF if ON and ON if OFF)
+    if(AirmaxSw.state == ON)                                    //Example - Toggle - change item state using HASP button (turn OFF if ON and ON if OFF)
         {
         jsonString = '["p[2].b[22].picc=4"]'
         }
@@ -644,11 +619,11 @@ end
 
 rule "Handle HASP Master Page 2 Cadence status display"
 when
-    Item Cadence received update or
+    Item CadenceSw received update or
     Item HASP_Plate01_Page_Current received update
 then
     var String jsonString
-    if(Cadence.state == ON)                                    //Example - Toggle - change item state using HASP button (turn OFF if ON and ON if OFF)
+    if(CadenceSw.state == ON)                                    //Example - Toggle - change item state using HASP button (turn OFF if ON and ON if OFF)
         {
         jsonString = '["p[2].b[23].picc=4"]'
         }
@@ -656,7 +631,6 @@ then
         {
         jsonString = '["p[2].b[23].picc=3"]' 
         }
-    
     HASP_Plate01_Plate_Command_JSON.sendCommand(jsonString)    
 end
 
@@ -668,23 +642,6 @@ then
     HASP_Plate01_Plate_Command_JSON.sendCommand(jsonString)    
 end
 
-
-
-
-
-
-// rule "Handle HASP Master Page 9 chart"
-// when
-//     Time cron "0 * * ? * *"                     //Fire rule every minute
-// then
-//     if (HASP_Plate01_Page_Current.state == 9)   //Only update chart if you're on page 9 (chart gets reset when page is not active)
-//     {
-//         var Number sigStrength = (((HASP_Plate01_Plate_Sensor_SignalStrength.state as DecimalType) + 100 ) * 1.333).intValue
-//         logInfo("HASP", sigStrength.toString)
-
-//         HASP_Plate01_Plate_Command.sendCommand('add 6,0,' + sigStrength.toString)
-//     }
-// end
 
 // /* -------------------------------------- END USER-DEFINED HANDLER RULES -------------------------------------- */
 
@@ -816,8 +773,8 @@ then
    
 end
 
-// /* Set page button colors based on current page */
-rule "HASP Master set page button colors on page change"
+// /* Set page button images based on current page */
+rule "HASP Master set page button images on page change"
 when
     Item HASP_Plate01_Page_Current received update 
 then
